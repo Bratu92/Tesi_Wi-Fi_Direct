@@ -1,0 +1,152 @@
+\documentclass[12pt,a4paper,openright,twoside]{report}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage[
+    backend=biber,
+    style=alphabetic,
+    citestyle=alphabetic,
+    sorting=ynt
+]{biblatex}
+
+\addbibresource{bibliography/online.bib}
+\addbibresource{bibliography/article.bib}
+\addbibresource{bibliography/book.bib}
+
+\usepackage{fancyhdr}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{newlfont}
+\usepackage{enumitem}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% Math
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{amsthm}
+
+% Tables
+\usepackage{longtable}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{booktabs}
+\usepackage{seqsplit}
+
+% Code
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{void}{RGB}{0,0,0}
+\definecolor{gray}{RGB}{66,66,66}
+\definecolor{azure}{RGB}{0,151,167}
+\definecolor{fuxia}{RGB}{255,64,129}
+
+\definecolor{js_background}{RGB}{0,0,0}
+\definecolor{js_keyword}{RGB}{128,189,1}
+\definecolor{js_strings}{RGB}{115,115,115}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{azure},
+  commentstyle=\color{gray},
+  stringstyle=\color{fuxia},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  numbers=right,
+  captionpos=b
+}
+
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+
+\oddsidemargin=30pt \evensidemargin=20pt
+\hyphenation{sil-la-ba-zio-ne pa-ren-te-si}
+\pagestyle{fancy}\addtolength{\headwidth}{20pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection \ #1}{}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+\cfoot{}
+\linespread{1.3}
+
+\renewcommand\lstlistingname{Codice}
+\renewcommand\lstlistlistingname{Elenco listati di codice}
+
+%%%%%%%%%%%%%%% INIZIO DOCUMENTO %%%%%%%%%%%%%%%
+\begin{document}
+
+
+%%%%%%%%%%%%%%% DEDICA %%%%%%%%%%%%%%%
+\begin{titlepage}
+
+\thispagestyle{empty}
+\topmargin=6.5cm
+\raggedleft
+\large
+
+\em
+Dedica da fare\\
+Qui potrai scrivere quello che vuoi\\
+\newpage
+
+\end{titlepage}
+
+
+%%%%%%%%%%%%%%% INTRODUZIONE %%%%%%%%%%%%%%%
+\include{1_introduzione}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+
+
+%%%%%%%%%%%%%%% INDICE %%%%%%%%%%%%%%%
+\tableofcontents
+\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries
+INDICE}}
+
+
+%%%%%%%%%%%%%%% ELENCO DELLE FIGURE %%%%%%%%%%%%%%%
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\listoffigures
+
+
+%%%%%%%%%%%%%%% ELENCO DELLE TABELLE %%%%%%%%%%%%%%%
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\listoftables
+
+
+%%%%%%%%%%%%%%% ELENCO DEL CODICE %%%%%%%%%%%%%%%
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\lstlistoflistings
+
+
+%%%%%%%%%%%%%%% CAPITOLO %%%%%%%%%%%%%%%
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries\rightmark}}
+\pagenumbering{arabic}
+
+\part{Stato dell'Arte}
+\include{2_tecnologia_wifi_direct}
+\include{3_android_wifi_direct}
+\part{Parte sperimentale}
+\include{4_valutazione_prestazioni}
+\include{5_risultati}
+\include{6_conclusioni}
+
+\end{document}
