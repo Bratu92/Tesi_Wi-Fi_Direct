@@ -1,16 +1,107 @@
 \chapter{Valutazione sperimentale delle prestazioni}
-Lorem ipsum
+In questo capitolo analizzeremo nel dettaglio l'applicazione da me realizzata per lo svolgimento dei test su tale tecnologia.
 
 \section{Applicazione}
-Lorem ipsum
+Per la realizzazione di tali test sono stati impiegati 2 dispositivi.
+Il primo dispositivo avrà la funzione di P2P Group Owner (Server), mentre invece il secondo avrà la funzione di Client.
+
+\subsection{P2P Group Owner}
+I test sono stati eseguiti con l'ausilio di un gruppo standard:
+L'utilizzo di tale gruppo, come spiegato precedentemente, implica che prima che venga deciso quale dei due dispositivi sarà il Group Owner (GO), bisognerà attraversare un fase chiamata di negoziazione (GO Negotiation), in tale fase i due dispositivi decideranno su quale canale (1,6,11) porsi, ed inizieranno ad inviarsi valori numerici tra loro che dichiareranno in seguito.
+Alla fine chi avrà dichiarato il valore più alto assumerà il ruolo di Grou Owner ed inizieranno a comunicare.
+
+La comunicazione lato server avviene tramite la creazione di un Thread chiamato ThreadCalcoli (in cui verranno effettuati i calcoli delle due metriche: Packet Delivery Ratio e Throughput) che a sua volta creerà un secondo Thread chiamato ThreadComunicazione (che si occuperà esclusivamente di ricevere e reinviare i pacchetti ottenuti dal Client).
+Una volta creato il ThreadComunicazione, il ThreadCalcoli andrà in stato di sleep per un totale di 50 secondi.
+Tale Thread invece rimarrà in attesa dei pacchetti che verranno inviati dal Client.
+Durante il processo, sono state istanziate 2 variabili che saranno fondamentali per il calcolo delle 2 metriche e che verranno condivise tra i 2 Thread.
+La prima variabile sarà utile a ricavare il Throughput su 50 secondi, assumendo il valore della dimensione del pacchetto ricevuto, mentre invece la seconda avrà lo scopo di contatore per tenere traccia del numero di pacchetti ricevuti, utile per calcolare il Packet Delivery Ratio.
+Una volta che il ThreadCalcoli ha raggiunto i 50 secondi, invia un segnale al ThreadComunicazione bloccandolo, permettendo così il calcolo delle 2 metriche attraverso la lettura dei dati ricevuti contenuti nelle 2 variabili.
+Terminati tali calcoli il ThreadCalcoli sblocca il ThreadComunicazione e si rimette in stato di sleep per altri 50 secondi ripetendo successivamente le stesse operazioni per i cicli successivi.
+
+\subsection{Client}
+Tale dispositivo si occupa di inviare i pacchetti al Server, l'invio di tali pacchetti avviene attraverso la lettura di un array chiamato packets che contiene il numero di pacchetti da inviare.
+
 
 \section{Dispositivi usati}
-Lorem ipsum
+Per la realizzazione di tali esperimenti sono stati usati i seguenti dispositivi:
+
+-Samsung Galaxy S5
+
+\begin{center}
+\includegraphics[width=1\textwidth]{imgs/s5.jpg}
+\captionof{figure}{Samsung Galaxy S5}\label{s5_img}%
+\end{center}
+
+-Google Nexus 5
+
+\begin{center}
+\includegraphics[width=1\textwidth]{imgs/nexus5.jpg}
+\captionof{figure}{Google Nexus 5}\label{nexus_5_img}%
+\end{center}
 
 \section{Esperimenti}
-Lorem ipsum
+Per effettuare il calcolo delle 3 metriche ho eseguito i test in 2 ambienti:Indoor e Outdoor.
+
+\subsection{Packet Delivery Ratio (PDR)}
+
+
+
+
+
+Per eseguire il calcolo di tale metrica ho impostato l'array packets con una serie di valori che indicano il numero di pacchetti da inviare figura \ref{}, variando la distanza dei dispositivi ogni volta che l'intera applicazione terminava il processo.
+
+\subsection{Throughput}
+
+
+
+
+
+Per eseguire il calcolo di tale metrica ho impostato un tempo pari a 50 secondi e una dimensione del singolo pacchetto di 1000 Byte.
+Il test quindi ha 9 cicli della durata di 50 secondi con un numero di pacchetti diverso ad ogni ciclo, inoltre al termine dell'intero processo la distanza tra i dispositivi viene variata.
+
+\subsection{Discovery Time}
+
+
+
+
+Per eseguire il calcolo di tale metrica ho usufruito di 2 tipologie di gruppi per la decisione del Group Owner: Gruppo standard e Gruppo Autonomo.
+Nel caso del gruppo standard l'associazione tra i due dispositivi avviene tramite una semplice discovery, che implicherà però il passaggio attraverso una fase di GO Negotiation per decidere chi sarà Group Owner.
+
+
+
+
+
+Nel caso del gruppo autonomo invece, tale fase non viene eseguita, e quindi il dispositivo diventerà subito il Group Owner e gli altri potranno associarsi tramite una semplice discovery.
+Nel calcolo di tale metrica è stato effettuato anche un ulteriore esperimento connettendo tra loro più dispositivi.
+
 
 \section{Metriche}
-Lorem ipsum
+Qui di seguito riporterò le formule utilizzate per il calcolo delle 3 metriche.
+
+\subsection{Packet Delivery Ratio (PDR)}
+\begin{center}
+\includegraphics[width=1\textwidth]{imgs/PDR.jpg}
+\captionof{figure}{Formula calcolo Packet Delivery Ratio}\label{PDR_img}%
+\end{center}
+
+Rapporto fra il numero di pacchetti ricevuti a destinazione e il numero di pacchetti inviati dalla sorgente.
+Dove x rappresenta il numero di pacchetti inviati dalla sorgente e y il numero di quelli ricevuti a destinazione figura \ref{PDR_img}. 
+
+\subsection{Throughput}
+\begin{center}
+\includegraphics[width=1\textwidth]{imgs/Throughput.jpg}
+\captionof{figure}{Formula calcolo Throughput}\label{Throughput_img}%
+\end{center}
+
+Rappresenta l’effettiva quantità di byte trasmessi in una determinata quantità di tempo figura \ref{Throughput_img}.
+Negli esperimenti è stato considerato un tempo di 50 secondi e una dimensione dei pacchetti di 1000 Byte.
+
+\subsection{Discovery Time}
+
+Il calcolo del Discovery Time indica il tempo impiegato dai 2 dispositivi per trovarsi e associarsi.
+
+
+
+
 
 \clearpage{\pagestyle{empty}\cleardoublepage}
