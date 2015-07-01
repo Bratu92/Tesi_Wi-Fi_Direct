@@ -1,0 +1,12 @@
+Nella tesi è stato inizialmente descritto lo standard Wi-Fi Direct, approfondendo successivamente anche il suo funzionamento e la sua architettura.
+Dopodichè è stato descritto nel dettaglio il sistema operativo Android, e le applicazioni che tale tecnologia può avere su esso.
+Dopo questa parte teorica, è stata trattata la fase sperimentale, in cui sono stati effettuati e descritti determinati test per la valutazione delle metriche.
+Con esse ci si è potuti rendere conto delle reali potenzialità di tale tecnologia.
+Parlando nel dettaglio, nel caso del Packet Delivery Ratio e del Throughput, ci si è resi conto che le prestazioni risultano basse in ambienti Indoor, in quanto essendo all'interno di strutture, sono presenti ostacoli tra i dispositivi (muri) che ne riducono l'efficenza.
+Mentre invece nel caso Outdoor otteniamo risultati molto migliori, in quanto (grazie anche ad un attenzione molto curata) non è presente nessun tipo di ostacolo tra i 2 dispositivi.
+Inoltre tali test sono stati ripetuti anche usando dispositivi meno recenti, e si è appurato che esiste una differenza in ambito di prestazioni, tra dispositivi "vecchi" (Samsung Galaxy S3 e Samsung Galaxy Tab 2) e dispositivi "nuovi" (Samsung Galaxy S5 e Google Nexus 5), un esempio pratico lo si può trovare nei grafici precedentemente descritti, dove si è arrivati ad avere una distanza massima tra i due dispositivi (in ambiente outdoor) pari a 80 metri, quando invece la distanza massima per dispositivi vecchi era 60-65 metri.
+Un altra scoperta è stata nel calcolo del Discovery Time, dove si è appurato che i test dove veniva implementato il Group Owner risultavano migliori rispetto a quello senza GO, questo perchè con l'utilizzo del Group Owner si può saltare la fase di negoziazione (fase in cui i due dispositivi perdono tempo a decidere chi dovrà essere il server e chi il client).
+Inoltre si è constatato anche che il numero massimo di dispositivi associabili tra loro è pari a 4, anche se in verità raramente la connessione tra tutti e 4 i dispositivi avviene, infatti dopo 40 secondi la probabilità che l'associazione sia terminata è pari a 0.4.
+
+\subsection{Sviluppi Futuri}
+
