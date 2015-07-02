@@ -98,7 +98,7 @@ Tale tecnologia è basata su 2 parti fondamentali:
 
 Nella programmazione questi 3 metodi vengono usati spesso.
 Un esempio pratico è l'uso di "WifiP2pManager.ActionListener" per chiamare il metodo discoverPeers(), se il metodo verrà eseguito correttamente verremo notificati dai metodi ActionListener.onSuccess() e ActionListener.onFailure().
-Inoltre sarà anche trasmesso un intento chiamato WIFI_P2P_PEERS_CHANGED_ACTION nel caso in cui il metodo discoverPeers() rilevi modifiche tra la lista dei peer disponibili.
+Inoltre sarà anche trasmesso un intento chiamato WIFI P2P PEERS CHANGED ACTION nel caso in cui il metodo discoverPeers() rilevi modifiche tra la lista dei peer disponibili.
 
 Per entrare ancora più nel dettaglio ecco una lista dei metodi, listener e intent contenuti nella classe WifiP2pManager:
 
@@ -128,10 +128,11 @@ Ci sono 2 step base da seguire per la creazione di questa classe che permette di
 
 2- Nella classe BroadcastReceiver eseguire la verifica degli Intent di nostro interesse all'interno del metodo       onReceive().
    Per esempio, se il BroadcastReceiver riceve un intento WIFI P2P PEERS CHANGED ACTION, si potrà chiamare il        metodo requestPeers() per avere una lista dei Peer trovati al momento.
+
    
 
 \begin{center}
-\includegraphics[width=1\textwidth]{imgs/broadcastreceiver.jpg}
+\includegraphics[width=0.9\textwidth]{imgs/broadcastreceiver.jpg}
 \captionof{figure}{Rappresentazione classe BroadcastReceiver}\label{broadcastreceiver_img}%
 \end{center}
 
@@ -218,6 +219,7 @@ Una volta stabilita la connessione tra i due dispositivi, si può procedere con 
 3- Una volta che client e server saranno connessi si potrà procedere con lo scambio di dati tramite byte streams.
 
 La figura \ref{server_img} illustrerà il codice impiegato lato Server per il trasferimento dei dati:
+
 
 \begin{center}
 \includegraphics[width=1\textwidth]{imgs/server.jpg}

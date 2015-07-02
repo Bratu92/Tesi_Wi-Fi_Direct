@@ -2,7 +2,7 @@
 In questo capitolo analizzeremo nel dettaglio l'applicazione da me realizzata per lo svolgimento dei test su tale tecnologia.
 
 \section{Applicazione}
-Per la realizzazione di tali test sono stati impiegati 2 dispositivi.
+Per la realizzazione dei test relativi Packet Delivery Ratio e Throughput sono stati impiegati 2 dispositivi, mentre invece per il calcolo del Discovery Time da 2 a 4 dispositivi.
 Il primo dispositivo avrà la funzione di P2P Group Owner (Server), mentre invece il secondo avrà la funzione di Client.
 
 \subsection{P2P Group Owner}
@@ -31,6 +31,7 @@ Per la realizzazione di tali esperimenti sono stati usati i seguenti dispositivi
 \includegraphics[width=1\textwidth]{imgs/s5.jpg}
 \captionof{figure}{Samsung Galaxy S5}\label{s5_img}%
 \end{center}
+\newpage
 
 -Google Nexus 5
 
@@ -38,6 +39,7 @@ Per la realizzazione di tali esperimenti sono stati usati i seguenti dispositivi
 \includegraphics[width=1\textwidth]{imgs/nexus5.jpg}
 \captionof{figure}{Google Nexus 5}\label{nexus_5_img}%
 \end{center}
+\newpage
 
 -Samsung Galaxy S3
 
@@ -45,6 +47,7 @@ Per la realizzazione di tali esperimenti sono stati usati i seguenti dispositivi
 \includegraphics[width=1\textwidth]{imgs/galaxy_s3.jpg}
 \captionof{figure}{Samsung Galaxy S3}\label{galaxys3_img}%
 \end{center}
+\newpage
 
 -Samsung Galaxy Tab 2
 
@@ -56,37 +59,54 @@ Per la realizzazione di tali esperimenti sono stati usati i seguenti dispositivi
 \section{Esperimenti}
 Per effettuare il calcolo delle 3 metriche ho eseguito i test in 2 ambienti:Indoor e Outdoor.
 
-\subsection{Packet Delivery Ratio (PDR)}
+\subsection{Packet Delivery Ratio (PDR) e Throughput}
+
+Per eseguire il calcolo del Packet Delivery Ratio ho impostato un array packets con una serie di valori che indicano il numero di pacchetti da inviare.
+
+Per quanto riguarda invece il calcolo del Throughput ho impostato un tempo pari a 50 secondi e una dimensione del singolo pacchetto di 1000 Byte.
+Il test quindi ha 9 cicli della durata di 50 secondi con un numero di pacchetti diverso ad ogni ciclo.
+Per tutti e due i test la distanza tra i due dispositivi viene variata continuamente.
+Nele immagini di seguito viene illustrato il procedimento:
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{imgs/Client.png}
+\captionof{figure}{Il client invia i pacchetti al Server}\label{client_img}%
+\end{center}
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{imgs/Server.png}
+\captionof{figure}{Il server riceve e re-invia i pacchetti al Client, occupandosi in parallelo di fare il calcolo delle metriche}\label{server_img}%
+\end{center}
 
 
-
-
-
-Per eseguire il calcolo di tale metrica ho impostato l'array packets con una serie di valori che indicano il numero di pacchetti da inviare figura \ref{}, variando la distanza dei dispositivi ogni volta che l'intera applicazione terminava il processo.
-
-\subsection{Throughput}
-
-
-
-
-
-Per eseguire il calcolo di tale metrica ho impostato un tempo pari a 50 secondi e una dimensione del singolo pacchetto di 1000 Byte.
-Il test quindi ha 9 cicli della durata di 50 secondi con un numero di pacchetti diverso ad ogni ciclo, inoltre al termine dell'intero processo la distanza tra i dispositivi viene variata.
 
 \subsection{Discovery Time}
 
-
-
-
 Per eseguire il calcolo di tale metrica ho usufruito di 2 tipologie di gruppi per la decisione del Group Owner: Gruppo standard e Gruppo Autonomo.
-Nel caso del gruppo standard l'associazione tra i due dispositivi avviene tramite una semplice discovery, che implicherà però il passaggio attraverso una fase di GO Negotiation per decidere chi sarà Group Owner.
+Nel caso del gruppo standard l'associazione tra i due dispositivi avviene tramite una semplice discovery (attivabile tramite l'apposito pulsante a forma di occhio in alto a destra, che implicherà però il passaggio attraverso una fase di GO Negotiation per decidere chi sarà Group Owner.
 
 
+\begin{center}
+\includegraphics[width=0.5\textwidth]{imgs/Discovery.png}
+\captionof{figure}{Cliccando sul pulsante a forma di occhio partirà la discovery}\label{discovery_img}%
+\end{center}
+
+Una volta trovato il dispositivi a cui connettersi, comparirà una finestra col tempo impiegato, figura \ref{tempo_discovery_img}.
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{imgs/tempo_discovery.png}
+\captionof{figure}{Il tempo impiegato per la ricerca e l'associazione}\label{tempo_discovery_img}%
+\end{center}
 
 
+Nel caso del gruppo autonomo invece, tale fase non viene eseguita, e quindi il dispositivo diventerà subito il Group Owner e gli altri potranno associarsi tramite una semplice discovery, per usufruire del gruppo autonomo basterà cliccare sul pulsante apposito raffigurante 2 persone e il dispositivo assumerà subito il ruolo di Group Owner.
+Nel calcolo di tale metrica è stato effettuato anche un ulteriore esperimento connettendo tra loro più dispositivi figura \ref{piu_dispositivi_img}.
 
-Nel caso del gruppo autonomo invece, tale fase non viene eseguita, e quindi il dispositivo diventerà subito il Group Owner e gli altri potranno associarsi tramite una semplice discovery.
-Nel calcolo di tale metrica è stato effettuato anche un ulteriore esperimento connettendo tra loro più dispositivi.
+\begin{center}
+\includegraphics[width=0.5\textwidth]{imgs/piu_dispositivi.png}
+\captionof{figure}{Il tempo impiegato per la ricerca e l'associazione tra i dispositivi}\label{piu_dispositivi_img}%
+\end{center}
+\newpage
 
 
 \section{Metriche}
