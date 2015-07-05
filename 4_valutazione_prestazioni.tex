@@ -4,12 +4,18 @@ In questo capitolo analizzeremo nel dettaglio l'applicazione da me realizzata pe
 \section{Applicazione}
 Per la realizzazione dei test relativi Packet Delivery Ratio e Throughput sono stati impiegati 2 dispositivi, mentre invece per il calcolo del Discovery Time da 2 a 4 dispositivi.
 Il primo dispositivo avrà la funzione di P2P Group Owner (Server), mentre invece il secondo avrà la funzione di Client.
+I test sono stati eseguiti con l'ausilio di un gruppo standard.
+L'utilizzo di tale gruppo è spiegato di seguito: cliccando sul bottone a forma di occhio posto in alto a sinistra dell'applicazione si richiamerà il metodo discoverPeers(), e successivamente un Listener associato al metodo avvertirà se tale chiamata è andata a buon fine oppure no.
+Se la chiamata è andata a buon fine il Broadcast Receiver riceverà un Intent che gli farà eseguire tali operazioni:
+il metodo requestPeers() viene richiamato in modo che richieda la lista dei peer trovati, in parallelo e in maniera asincrona viene eseguito anche il metodo onPeersAvailable() che si occuperà di modificare l'interfaccia grafica con la lista dei peers trovati.
+Una volta che è stato scelto il dispositivo al quale ci si vuole connettere, si richiamerà il metodo connect() e in caso di successo verrà inviato un altro Intent al BroadcastReceiver che a questo punto eseguirà il metodo requestConnectionInfo(), per richiedere le informazioni necessarie al dispositivo per la formazione del gruppo P2P. 
+Le informazioni saranno reperibili nel metodo onConnectionInfoAvailable() che permetterà, come si è visto nel
+precedente capitolo, di sapere l’esito della Go Negotiation e, in base al risultato, instanziare delle classi opportune per comunicare con i dispositivi del gruppo, a questo punto i dispositivi saranno pronti per comunicare.
 
 \subsection{P2P Group Owner}
-I test sono stati eseguiti con l'ausilio di un gruppo standard:
-L'utilizzo di tale gruppo, come spiegato precedentemente, implica che prima che venga deciso quale dei due dispositivi sarà il Group Owner (GO), bisognerà attraversare un fase chiamata di negoziazione (GO Negotiation), in tale fase i due dispositivi decideranno su quale canale (1,6,11) porsi, ed inizieranno ad inviarsi valori numerici tra loro che dichiareranno in seguito.
-Alla fine chi avrà dichiarato il valore più alto assumerà il ruolo di Grou Owner ed inizieranno a comunicare.
 
+L'utilizzo di tale gruppo, come spiegato precedentemente, implica che prima che venga deciso quale dei due dispositivi sarà il Group Owner (GO), bisognerà attraversare un fase chiamata di negoziazione (GO Negotiation), in tale fase i due dispositivi decideranno su quale canale (1,6,11) porsi, ed inizieranno ad inviarsi valori numerici tra loro che dichiareranno in seguito.
+Alla fine chi avrà dichiarato il valore più alto assumerà il ruolo di Group Owner ed inizieranno a comunicare.
 La comunicazione lato server avviene tramite la creazione di un Thread chiamato ThreadCalcoli (in cui verranno effettuati i calcoli delle due metriche: Packet Delivery Ratio e Throughput) che a sua volta creerà un secondo Thread chiamato ThreadComunicazione (che si occuperà esclusivamente di ricevere e reinviare i pacchetti ottenuti dal Client).
 Una volta creato il ThreadComunicazione, il ThreadCalcoli andrà in stato di sleep per un totale di 50 secondi.
 Tale Thread invece rimarrà in attesa dei pacchetti che verranno inviati dal Client.
@@ -24,6 +30,7 @@ Tale dispositivo si occupa di inviare i pacchetti al Server, l'invio di tali pac
 
 \section{Dispositivi usati}
 Per la realizzazione di tali esperimenti sono stati usati i seguenti dispositivi:
+\newpage
 
 -Samsung Galaxy S5
 
@@ -99,7 +106,7 @@ Una volta trovato il dispositivi a cui connettersi, comparirà una finestra col 
 \end{center}
 
 
-Nel caso del gruppo autonomo invece, tale fase non viene eseguita, e quindi il dispositivo diventerà subito il Group Owner e gli altri potranno associarsi tramite una semplice discovery, per usufruire del gruppo autonomo basterà cliccare sul pulsante apposito raffigurante 2 persone e il dispositivo assumerà subito il ruolo di Group Owner.
+Nel caso del gruppo autonomo invece, tale fase non viene eseguita, e quindi il dispositivo diventerà subito il Group Owner e gli altri potranno associarsi tramite una semplice discovery, per usufruire del gruppo autonomo basterà cliccare sul pulsante apposito raffigurante 2 persone, cliccando sul bottone verrà richiamato il metodo createGroup(), che notificherà tramite un Intent il successo o fallimento di tale chiamata, successivamente le azioni eseguite saranno uguali a quelle descritte precedentemente per effettuare la fase di Discovery con gruppo Standard, esclusa però la parte in cui viene eseguita la fase di negoziazione che verrà saltata e quindi il dispositivo assumerà subito il ruolo di Group Owner.
 Nel calcolo di tale metrica è stato effettuato anche un ulteriore esperimento connettendo tra loro più dispositivi figura \ref{piu_dispositivi_img}.
 
 \begin{center}
@@ -114,7 +121,7 @@ Qui di seguito riporterò le formule utilizzate per il calcolo delle 3 metriche.
 
 \subsection{Packet Delivery Ratio (PDR)}
 \begin{center}
-\includegraphics[width=1\textwidth]{imgs/PDR.jpg}
+\includegraphics[width=0.6\textwidth]{imgs/PDR.jpg}
 \captionof{figure}{Formula calcolo Packet Delivery Ratio}\label{PDR_img}%
 \end{center}
 
@@ -123,7 +130,7 @@ Dove x rappresenta il numero di pacchetti inviati dalla sorgente e y il numero d
 
 \subsection{Throughput}
 \begin{center}
-\includegraphics[width=1\textwidth]{imgs/Throughput.jpg}
+\includegraphics[width=0.9\textwidth]{imgs/Throughput.jpg}
 \captionof{figure}{Formula calcolo Throughput}\label{Throughput_img}%
 \end{center}
 
@@ -133,8 +140,12 @@ Negli esperimenti è stato considerato un tempo di 50 secondi e una dimensione d
 \subsection{Discovery Time}
 
 Il calcolo del Discovery Time indica il tempo impiegato dai 2 dispositivi per trovarsi e associarsi.
+Tale calcolo è stato fatto utilizzando la formula di ripartizione, che permette di calcolare la probabilità che un determinato evento (in questo caso il completamento della fase di Discovery) si verifichi entro un dato valore t di tempo (in questo caso espresso in secondi) figura \ref{funzione_ripart_img}.
 
-Tale calcolo è stato fatto eseguendo la fase di Discovery per 30 volte per ogni singola distanza, successivamente si è eseguito un semplice calcolo della media prendendo e sommando tutti i valori uguali ( esempio se per più volte abbiamo ottenuto un tempo di 5 secondi sarà: 5+5+5+5.... ) e dividendoli per 30, tale risultato verrà poi trasformato in percentuale.
+\begin{center}
+\includegraphics[width=0.8\textwidth]{imgs/funzione_ripart.jpg}
+\captionof{figure}{Formula per il calcolo della probabilità di successo completamento fase Discovery}\label{funzione_ripart_img}%
+\end{center}
 
 
 
